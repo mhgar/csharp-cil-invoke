@@ -23,7 +23,7 @@ Time("CIL emit invoke", 1_000_000, () => cilInvoke(argv));
 Time("Reflection invoke", 1_000_000, () => add.Invoke(thing, argv));
 ```
 
-### Results (i5-4670k 4.4ghz):
+### Speed of 1,000,000 calls in ms (i5-4670k 4.4ghz):
 ```
 dotnet run
 CIL emit invoke: 23.6595
