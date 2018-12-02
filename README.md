@@ -15,7 +15,7 @@ void Time(string name, int count, Action action) {
 var thing = new Thing();
 var add = typeof(Thing).GetMethod("Add"); // Add is defined as (int a, int b) => a + b           
 
-var cilInvoke = Dynamify.MakeDynamic(add, thing);
+var cilInvoke = CILInvoke.New(add, thing);
 
 object[] argv = { 3, 4 };
 
