@@ -9,7 +9,7 @@ namespace Wander {
         readonly static Dictionary<(MethodInfo, object), Func<object[], object>> cache = 
             new Dictionary<(MethodInfo, object), Func<object[], object>>();
 
-        public static Func<object[], object> New(MethodInfo method, object target = null) {
+        public static Func<object[], object> Convert(MethodInfo method, object target = null) {
             // Instead of caching it might be easier to try grab the DynamicMethod out of the target object again.
             var cacheKey = (method, target);
             if (cache.ContainsKey(cacheKey)) {
