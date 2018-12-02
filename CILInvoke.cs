@@ -61,7 +61,7 @@ namespace Wander {
 
             // Return
             if (hasReturn) {
-                if (returnType.IsPrimitive) {
+                if (returnType.IsValueType) {
                     cil.Emit(OpCodes.Box, returnType);
                 }
             } else {
