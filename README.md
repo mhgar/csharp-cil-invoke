@@ -12,20 +12,34 @@ void Time(string name, int count, Action action) {
 }
 
 
-var thing = new Thing();
-var add = typeof(Thing).GetMethod("Add"); // Add is defined as (int a, int b) => a + b           
+Func<int, int, int> addFunc = (a, b) => a + b;
+            
+var method = addFunc.Method;
+var target = addFunc.Target;
 
-var cilInvoke = CILInvoke.Convert(add, thing);
+Func<object[], object> invokable = CILInvoke.Convert(method, target);            
 
-object[] argv = { 3, 4 };
+// Creating args during call.
+Time("CILInvoke.Invoke", 1_000_000, () => invokable(new object[] { 5, 7 }));
+Time("MethodInvoke.Invoke", 1_000_000, () => method.Invoke(target, new object[] { 5, 7 }));
+Time("Delegate.DynamicInvoke", 1_000_000, () => addFunc.DynamicInvoke(new object[] { 5, 7 }));
 
-Time("CIL emit invoke", 1_000_000, () => cilInvoke(argv));
-Time("Reflection invoke", 1_000_000, () => add.Invoke(thing, argv));
+object[] prefilledArgs = { 7, 8 };
+
+Console.WriteLine();
+// Storing args somewhere else.
+Time("CILInvoke.Invoke", 1_000_000, () => invokable(prefilledArgs));
+Time("MethodInvoke.Invoke", 1_000_000, () => method.Invoke(target, prefilledArgs));
+Time("Delegate.DynamicInvoke", 1_000_000, () => addFunc.DynamicInvoke(prefilledArgs));
 ```
 
-### Speed of 1,000,000 calls in ms (i5-4670k 4.4ghz):
+### Results (ms/1mil):
 ```
-dotnet run
-CIL emit invoke: 23.6595
-Reflection invoke: 213.8327
+CILInvoke.Invoke: 44.1909
+MethodInvoke.Invoke: 221.4021
+Delegate.DynamicInvoke: 361.603
+
+CILInvoke.Invoke: 21.9491
+MethodInvoke.Invoke: 197.5116
+Delegate.DynamicInvoke: 352.7306
 ```
