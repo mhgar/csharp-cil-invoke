@@ -43,3 +43,6 @@ CILInvoke function: 21.9491
 MethodInvoke.Invoke(): 197.5116
 Delegate.DynamicInvoke(): 352.7306
 ```
+
+### Why CIL over Generics?
+I wrote a library that used generics prior, but the amount of generics that needed to be written - and called automatically - was very cumbersome. Also, if you're doing something in CIL it looks very impressive.
